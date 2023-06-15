@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Search API Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <style type="text/tailwindcss">
+      @layer utilities {
+        .content-auto {
+          content-visibility: auto;
+        }
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              clifford: "#da373d",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-[#f6f9fc]">
+    <header class="bg-white w-full rounded-xl border-2 border-[#e5e7eb]">
+      <nav
+        class="flex w-full items-center justify-between p-6 lg:px-8"
+        aria-label="Global"
+      >
+        <div class="flex justify-start lg:flex-1">
+          <a href="#" class="-m-1.5 p-1.5">
+            <span class="sr-only">Your Company</span>
+            <h2 class="text-xl font-bold">Logo</h2>
+          </a>
+        </div>
+        <div class="flex lg:hidden">
+          <button
+            type="button"
+            class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+          >
+            <span class="sr-only">Open main menu</span>
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="hidden lg:flex lg:gap-x-12">
+          <a href="#" class="text-sm font-semibold leading-6 text-gray-900"
+            >Features</a
+          >
+          <a href="#" class="text-sm font-semibold leading-6 text-gray-900"
+            >Marketplace</a
+          >
+          <a href="#" class="text-sm font-semibold leading-6 text-gray-900"
+            >Company</a
+          >
+        </div>
+        <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+          <a href="#" class="text-sm font-semibold leading-6 text-gray-900"
+            >Log in <span aria-hidden="true">&rarr;</span></a
+          >
+        </div>
+      </nav>
+      <!-- Mobile menu, show/hide based on menu open state. -->
+      <div class="lg:hidden" role="dialog" aria-modal="true">
+        <!-- Background backdrop, show/hide based on slide-over state. -->
+        <div class="fixed inset-0 z-10"></div>
+        <div
+          class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10"
+        >
+          <div class="flex items-center justify-between">
+            <a href="#" class="-m-1.5 p-1.5">
+              <span class="sr-only">Your Company</span>
+              <img
+                class="h-8 w-auto"
+                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                alt=""
+              />
+            </a>
+            <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+              <span class="sr-only">Close menu</span>
+              <svg
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="mt-6 flow-root">
+            <div class="-my-6 divide-y divide-gray-500/10">
+              <div class="space-y-2 py-6">
+                <div class="-mx-3">
+                  <button
+                    type="button"
+                    class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    aria-controls="disclosure-1"
+                    aria-expanded="false"
+                  >
+                    Product
+                    <!--
+                  Expand/collapse icon, toggle classes based on menu open state.
+
+                  Open: "rotate-180", Closed: ""
+                -->
+                   
+                  <!-- 'Product' sub-menu, show/hide based on menu state. -->
+                  <div class="mt-2 space-y-2" id="disclosure-1">
+                    <a
+                      href="#"
+                      class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      >Analytics</a
+                    >
+                    <a
+                      href="#"
+                      class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      >Engagement</a
+                    >
+                    <a
+                      href="#"
+                      class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      >Security</a
+                    >
+                    <a
+                      href="#"
+                      class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      >Integrations</a
+                    >
+                    <a
+                      href="#"
+                      class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      >Automations</a
+                    >
+                    <a
+                      href="#"
+                      class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      >Watch demo</a
+                    >
+                    <a
+                      href="#"
+                      class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      >Contact sales</a
+                    >
+                  </div>
+                </div>
+                <a
+                  href="#"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >Features</a
+                >
+                <a
+                  href="#"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >Marketplace</a
+                >
+                <a
+                  href="#"
+                  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >Company</a
+                >
+              </div>
+              <div class="py-6">
+                <a
+                  href="#"
+                  class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >Log in</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+       <h1 class="text-4xl font-extrabold text-center py-8">Discover Interests</h1>
+
+    <div class="flex px-7  gap-8">
+      <!-- <form class="flex gap-12" action=""> -->
+      
+      <input
+        id="searchTerm"
+        type="text"
+        class="flex border-2 border-[#e5e7eb] w-full outline-none py-3 rounded-xl"
+        placeholder="Enter search term"
+      />
+      <button
+        type="submit"
+        class="border-2 flex items-center gap-2 bg-white px-6 py-3 text-[16x] font-bold hover:bg-[black] hover:text-[white] rounded-xl"
+        onclick="search()"
+      >
+      <svg width="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Search_Magnifying_Glass"> <path id="Vector" d="M15 15L21 21M10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10C17 13.866 13.866 17 10 17Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
+ <h3>Explore</h3>
+      </button>
+      <!-- </form> -->
+    </div>
+    <h5 class="text-black px-6 text-[32px] font-bold py-4">Explore <span id="lengthSearchdata" class="lengthSearchdata"></span> interests related to "<span id="Searchteam" class="Searchteam"></span>"</h5>
+
+    <div class=" px-6 pt-8">
+      <div class="table">
+        <div class="table-header !text-[#8d949a]">
+          <div class="header__item">
+            <a id="Interestd" class="filter__link" href="#">Interest</a>
+          </div>
+          <div class="header__item">
+            <a id="Audience" class="filter__link filter__link--number" href="#"
+              >Audience Size</a
+            >
+          </div>
+          <div class="header__item">
+            <a id="Topic" class="filter__link filter__link--number" href="#"
+              >Topic</a
+            >
+          </div>
+          <div class="header__item">
+            <a id="Search" class="filter__link filter__link--number" href="#"
+              >Search</a
+            >
+          </div>
+          <div class="header__item">
+            <a id="Links" class="filter__link filter__link--number" href="#"
+              >path</a
+            >
+          </div>
+        </div>
+        <div class="table-content text-[#000] text-start font-medium text-base" id="resultsTable"></div>
+      </div>
+    </div>
+
+   <script>
+  function search() {
+  var searchTerm = document.getElementById("searchTerm").value;
+  var apiUrl = `https://graph.facebook.com/search?type=adinterest&q=[${searchTerm}]&limit=10000&locale=en_US&access_token=EAAIw7iqwlokBAFiGNjZB1Qqz0Dwfxj63uZCB0Ps3ervK1ZAaYuTqyZC10WrBVSW3v4J6BPUHZAV0k3nt6I03OH1yqWzZBSYNTZBYPTwkndpCb61ZBUNPUeIe3kK4x07mqGabQMAZB0NPHUtXhwAIPWRgjNb9ZBgd3Vyl9uAimODhKhsV0HLHBqMipvu00Mq9T55ZCBwgPm5NC1tZBwZDZD`;
+
+
+ 
+  axios
+    .get(apiUrl)
+    .then(function (response) {
+      var results = response.data.data;
+      var tableContent = document.getElementById("resultsTable");
+      tableContent.innerHTML = "";
+      console.log(results);
+      results.forEach(function (result) {
+        var tableRow = document.createElement("div");
+        tableRow.classList.add("table-row");
+
+        var interestCell = document.createElement("div");
+        interestCell.classList.add("table-data");
+        interestCell.textContent = result.name;
+        tableRow.appendChild(interestCell);
+
+       var audienceCell = document.createElement("div");
+audienceCell.classList.add("table-data");
+var audienceSizeLower = result.audience_size_lower_bound;
+var audienceSizeUpper = result.audience_size_upper_bound;
+var audienceText = formatAudienceSize(audienceSizeLower, audienceSizeUpper);
+audienceCell.textContent = audienceText;
+tableRow.appendChild(audienceCell);
+
+        var topicCell = document.createElement("div");
+        topicCell.classList.add("table-data");
+        topicCell.textContent = result.topic;
+        tableRow.appendChild(topicCell);
+       var topicCell = document.getElementById("lengthSearchdata");
+topicCell.textContent = results.length;
+       var topicCell = document.getElementById("Searchteam");
+topicCell.textContent = searchTerm;
+
+
+        var searchCell = document.createElement("div");
+        searchCell.classList.add("table-data");
+        searchCell.textContent = searchTerm;
+        tableRow.appendChild(searchCell);
+
+        var linksCell = document.createElement("div");
+        linksCell.classList.add("table-data");
+        linksCell.textContent = result.path;
+        tableRow.appendChild(linksCell);
+
+        tableContent.appendChild(tableRow);
+      });
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+}
+
+function formatAudienceSize(audienceSizeLower, audienceSizeUpper) {
+  var formattedLower = formatNumber(audienceSizeLower);
+  var formattedUpper = formatNumber(audienceSizeUpper);
+  return `${formattedLower}-${formattedUpper}`;
+}
+
+function formatNumber(number) {
+  if (number >= 1000000000) {
+    return `${(number / 1000000000).toFixed(1)}B`;
+  } else if (number >= 1000000) {
+    return `${(number / 1000000).toFixed(1)}M`;
+  } else if (number >= 1000) {
+    return `${(number / 1000).toFixed(1)}K`;
+  } else {
+    return `${number}`;
+  }
+}
+</script>
+
+  </body>
+</html>
